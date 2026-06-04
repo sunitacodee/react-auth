@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import '../css/dashboard.css'; // Importing our plain HTML custom styles
-
-export default function AuthLayout() {
+import { Outlet } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
+export default function AuthLayout({children}) {
   const [activeMenu, setActiveMenu] = useState('dashboard');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -13,10 +14,10 @@ export default function AuthLayout() {
   };
 
   const menuItems = [
-    { id: 'dashboard', label: 'Dashboard' },
-    { id: 'profile', label: 'Profile' },
-    { id: 'settings', label: 'Settings' },
-    { id: 'analytics', label: 'Analytics' }
+    { id: 'dashboard', label: 'Dashboard' ,path: '/dashboard'},
+    { id: 'profile', label: 'Profile' ,path: '/profile', },
+    { id: 'settings', label: 'Settings' ,path: '/settings',},
+    { id: 'analytics', label: 'Analytics' ,path: '/analytics'}
   ];
 
   return (
@@ -29,7 +30,7 @@ export default function AuthLayout() {
           <span className="logo-text">AcmeCorp</span>
         </div>
 
-        <nav>
+        {/* <nav>
           <ul className="menu-list">
             {menuItems.map((item) => (
               <li key={item.id}>
@@ -42,7 +43,22 @@ export default function AuthLayout() {
               </li>
             ))}
           </ul>
-        </nav>
+        </nav> */}
+
+        <nav>
+  <ul className="menu-list">
+    {menuItems.map((item) => (
+      <li key={item.id}  className={({ isActive }) => `menu-item ${isActive ? ' active' : ' no-class'}`}>
+        <NavLink
+          to={item.path}
+          className='menu-button'
+        >
+          {item.label}
+        </NavLink>
+      </li>
+    ))}
+  </ul>
+</nav>
       </aside>
 
       {/* --- MAIN RIGHT WRAPPER --- */}
@@ -82,12 +98,15 @@ export default function AuthLayout() {
 
         {/* --- DYNAMIC MAIN CONTENT --- */}
         <main className="main-content">
-          <div className="content-card">
+             <Outlet/>
+        {children}
+          {/* <div className="content-card">
             <h1 style={{ textTransform: 'capitalize', marginBottom: '0.5rem' }}>{activeMenu}</h1>
             <p style={{ color: '#64748b' }}>
               Showing display configurations for your {activeMenu} interface.
             </p>
-          </div>
+          </div> */}
+
         </main>
 
         {/* --- FOOTER --- */}
