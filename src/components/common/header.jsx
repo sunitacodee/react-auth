@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-
+import { useAuth } from '../../context/AuthContext';
 export default function Header({user}) {
       const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+      const {logout}=useAuth()
 
   return (
     <header className="header">
@@ -30,7 +31,7 @@ export default function Header({user}) {
               </div>
               <button className="dropdown-item">Account Settings</button>
               <button className="dropdown-item">Help & Support</button>
-              <button className="dropdown-item" style={{ color: '#ef4444' }}>Log Out</button>
+              <button className="dropdown-item" style={{ color: '#ef4444' }} onClick={logout}>Log Out</button>
             </div>
           </div>
         </header>

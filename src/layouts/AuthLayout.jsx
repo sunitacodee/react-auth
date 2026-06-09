@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
 import '../css/dashboard.css';
 import { Outlet } from "react-router-dom";
-import { NavLink } from 'react-router-dom';
 import Footer from '../components/common/footer';
 import Header from '../components/common/header';
 import Sidebar from '../components/common/sidebar';
+import {useAuth} from "../context/AuthContext"
+import { useNavigate } from "react-router";
+
 export default function AuthLayout({ children }) {
 
-  // Mock Data
-  const user = {
-    name: 'Alex Morgan',
-    email: 'alex.morgan@example.com',
-    role: 'Administrator'
-  };
+  const auth = useAuth();
+  const navigate = useNavigate()
 
+
+
+const { user } = auth;
+
+if (!auth || !user) {
+  navigate('/login')
+}
+console.log("user get:", user);
+
+console.log("user get: "+user)
   
 
   return (

@@ -1,24 +1,44 @@
 import React from 'react'
 
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes,useNavigate  } from 'react-router-dom'
 import Dashboard from '../pages/dashboard'
 import Profile from '../pages/profile'
 import Login from '../pages/login'
 import { NotFoundPage } from '../pages/notFound'
+import PublicLayout from '../layouts/publicLayout'
+import AuthLayout from '../layouts/AuthLayout'
+import { useAuth } from '../context/AuthContext'
 const AppRoutes = () => {
+
+  const auth = useAuth();
+  const navigate = useNavigate()
+
+    const { user } = auth;
+    console.log("user get:", user);
+
+if (!auth || !user) {
+  navigate('/login')
+}
     return (
         <>
             <Routes>
-                <Route path='/' Component={Dashboard} />
-                <Route path='/dashboard' Component={Dashboard} />
+/**public routes here */
+                <Route element={<PublicLayout />}>
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/' Component={Login} />
+                     
+                </Route>
 
-                <Route path='/profile' Component={Profile} />
+                /** authenticated routes here */
+                <Route element={<AuthLayout />}>
+                    <Route path='/' Component={Dashboard} />
+                    <Route path='/dashboard' Component={Dashboard} />
 
-                <Route path='/login' Component={Login} />
+                    <Route path='/profile' Component={Profile} />
 
-                {/* 404 */}
-                <Route path="*" element={<NotFoundPage />} />
-
+                    <Route path='/login' Component={Login} />
+                    <Route path="*" element={<NotFoundPage />} />
+                </Route>
             </Routes>
         </>
     )
