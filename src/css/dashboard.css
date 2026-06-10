@@ -261,6 +261,10 @@ body {
     background: "var(--color-background-primary)";
     color: "var(--color-text-primary)"; outline: "none";
 }
+.input-margin{
+  padding: 2px;
+  margin: 4px auto auto auto;
+}
 
 label { font-size: 13; font-weight: 500; color: "var(--color-text-secondary)" };
   

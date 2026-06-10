@@ -1,11 +1,9 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useAuth } from "../context/AuthContext"
 import { Spinner } from "./common/loadingScreen";
-
+import { register } from "../api/userApi";
 export default function SignUp() {
-    const { register } = useAuth(); // add register to your AuthContext
     const navigate = useNavigate();
 
     const [form, setForm] = useState({
@@ -47,12 +45,12 @@ export default function SignUp() {
             setBusy(true);
 
             await register({
-                firstName,
-                lastName,
-                username,
-                email,
-                password,
-                userType,
+                "first_name":form.firstName,
+                "last_name":form.lastName,
+                "username":form.username,
+                "email":form.email,
+                "password":form.password,
+                "user_type":form.userType,
             });
 
             navigate("/dashboard");
@@ -152,7 +150,7 @@ export default function SignUp() {
                     required />
                 </div>
                 {error && <div className="errorBox" >{error}</div>}
-                <button type="submit" className="btn btnPrimary" onClick="handleSubmit" disabled={busy}>
+                <button type="submit" className="btn btnPrimary"  disabled={busy}>
                     {busy ? <Spinner /> : "Create account →"}
                 </button>
             </form>
